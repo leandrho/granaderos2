@@ -7,6 +7,7 @@ import {
   type EstadoEquipo,
 } from "@/app/actions/admin/equipos.admin.actions";
 import { Campo, INPUT_CLASES } from "./Campo";
+import { CampoImagen } from "./CampoImagen";
 import { BotonEnviar } from "./BotonEnviar";
 
 interface EquipoFormProps {
@@ -29,7 +30,7 @@ export function EquipoForm({ id, valoresIniciales }: EquipoFormProps) {
   const errores = estado.errores ?? {};
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} encType="multipart/form-data" className="flex flex-col gap-5">
       <div className="grid gap-5 md:grid-cols-2">
         <Campo label="Nombre *" htmlFor="nombre" error={errores.nombre?.[0]}>
           <input
@@ -79,16 +80,16 @@ export function EquipoForm({ id, valoresIniciales }: EquipoFormProps) {
           />
         </Campo>
 
-        <Campo label="Logo" htmlFor="logo" error={errores.logo?.[0]}>
-          <input
-            id="logo"
-            name="logo"
-            type="text"
-            defaultValue={valoresIniciales?.logo ?? ""}
-            placeholder="/logos/equipo.png"
-            className={INPUT_CLASES}
-          />
-        </Campo>
+        <CampoImagen
+          nombre="logo"
+          etiqueta="Logo"
+          htmlFor="logo"
+          valorActual={valoresIniciales?.logo ?? ""}
+          aceptar="image/png,image/webp"
+          permitidos="png, webp"
+          error={errores.logo?.[0]}
+          errorImagen={estado.errorImagen}
+        />
       </div>
 
       {estado.error ? (

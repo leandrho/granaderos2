@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import {
   actualizarEvento,
   crearEvento,
@@ -12,6 +12,7 @@ import { BotonEnviar } from "./BotonEnviar";
 interface EquipoSelect {
   id: number;
   nombre: string;
+  direccion: string;
 }
 
 interface EventoFormProps {
@@ -44,6 +45,7 @@ function SelectEquipo({
   error,
   valorInicial,
   equipos,
+  onCambio,
 }: {
   id: string;
   nombre: string;
@@ -51,6 +53,7 @@ function SelectEquipo({
   error?: string;
   valorInicial?: number;
   equipos: EquipoSelect[];
+  onCambio?: (valor: string) => void;
 }) {
   return (
     <Campo label={`${nombre} *`} htmlFor={id} error={error}>
@@ -59,6 +62,7 @@ function SelectEquipo({
         name={id}
         required={requerido}
         defaultValue={valorInicial ?? ""}
+        onChange={onCambio ? (e) => onCambio(e.target.value) : undefined}
         className={INPUT_CLASES}
       >
         <option value="" disabled>
@@ -78,7 +82,19 @@ export function EventoForm({ id, equipos, valoresIniciales }: EventoFormProps) {
   const accion = id ? actualizarEvento.bind(null, id) : crearEvento;
   const [estado, formAction] = useActionState(accion, estadoInicial);
 
+  const [ubicacion, setUbicacion] = useState(valoresIniciales?.ubicacion ?? "");
+
   const errores = estado.errores ?? {};
+
+  const precargarUbicacion = (idEquipoLocal: string) => {
+    setUbicacion((anterior) => {
+      if (anterior.trim() !== "") return anterior;
+      const equipo = equipos.find(
+        (e) => String(e.id) === idEquipoLocal
+      );
+      return equipo?.direccion || anterior;
+    });
+  };
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
@@ -90,6 +106,7 @@ export function EventoForm({ id, equipos, valoresIniciales }: EventoFormProps) {
           error={errores.equipo1Id?.[0]}
           valorInicial={valoresIniciales?.equipo1Id}
           equipos={equipos}
+          onCambio={precargarUbicacion}
         />
         <SelectEquipo
           id="equipo2Id"
@@ -131,7 +148,8 @@ export function EventoForm({ id, equipos, valoresIniciales }: EventoFormProps) {
             name="ubicacion"
             type="text"
             required
-            defaultValue={valoresIniciales?.ubicacion}
+            value={ubicacion}
+            onChange={(e) => setUbicacion(e.target.value)}
             placeholder="Estadio de Granaderos, Juana Koslay"
             className={INPUT_CLASES}
           />

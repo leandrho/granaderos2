@@ -14,7 +14,7 @@ const EQUIPOS = [
   {
     id: 2,
     nombre: "Juventud Unida de San Luis",
-    direccion: "",
+    direccion: "Av. Illia 1250, San Luis",
     logo: null,
     ciudad: "San Luis",
     estadio: null,
@@ -22,7 +22,7 @@ const EQUIPOS = [
   {
     id: 3,
     nombre: "Sportivo Pringles",
-    direccion: "",
+    direccion: "Calle 25 de Mayo 480, Pringles",
     logo: null,
     ciudad: "Pringles, San Luis",
     estadio: null,
@@ -30,7 +30,7 @@ const EQUIPOS = [
   {
     id: 4,
     nombre: "Club Pringles",
-    direccion: "",
+    direccion: "Ruta 7 km 785, Pringles",
     logo: null,
     ciudad: "Pringles, San Luis",
     estadio: null,
@@ -38,7 +38,7 @@ const EQUIPOS = [
   {
     id: 5,
     nombre: "Defensores de La Punta",
-    direccion: "",
+    direccion: "Av. de los Cóndores 900, La Punta",
     logo: null,
     ciudad: "La Punta, San Luis",
     estadio: null,
@@ -46,7 +46,7 @@ const EQUIPOS = [
   {
     id: 6,
     nombre: "Atlético Villa Mercedes",
-    direccion: "",
+    direccion: "Calle Belgrano 320, Villa Mercedes",
     logo: null,
     ciudad: "Villa Mercedes, San Luis",
     estadio: null,

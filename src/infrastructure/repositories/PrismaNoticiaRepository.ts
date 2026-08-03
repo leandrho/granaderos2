@@ -1,7 +1,7 @@
 import { NoticiaRepository, NoticiaInput } from "@/domain/repositories/NoticiaRepository";
 import { Noticia } from "@/domain/entities/Noticia";
+import { Prisma } from "@prisma/client";
 import { prisma } from "../db/prisma";
-
 export class PrismaNoticiaRepository implements NoticiaRepository {
   async obtenerTodas(soloPublicadas = true): Promise<Noticia[]> {
     const registros = await prisma.noticia.findMany({
@@ -20,12 +20,44 @@ export class PrismaNoticiaRepository implements NoticiaRepository {
   }
 
   async crear(input: NoticiaInput): Promise<Noticia> {
-    const r = await prisma.noticia.create({ data: input });
+    const { imagenBin, imagenTipo, ...resto } = input;
+
+    const r = await prisma.noticia.create({ data: resto });
+
+    if (imagenBin && imagenTipo) {
+      const conImagen = await prisma.noticia.update({
+        where: { id: r.id },
+        data: {
+          imagenBin,
+          imagenTipo,
+          imagen: `/api/imagenes/noticia/${r.id}`,
+        },
+      });
+      return this.aEntidad(conImagen);
+    }
+
     return this.aEntidad(r);
   }
 
   async actualizar(id: number, input: NoticiaInput): Promise<Noticia> {
-    const r = await prisma.noticia.update({ where: { id }, data: input });
+    const { imagenBin, imagenTipo, ...resto } = input;
+
+    let data: Prisma.NoticiaUpdateInput = { ...resto };
+
+    if (imagenBin !== undefined) {
+      if (imagenBin === null) {
+        data = { ...data, imagenBin: null, imagenTipo: null, imagen: "" };
+      } else if (imagenTipo) {
+        data = {
+          ...data,
+          imagenBin,
+          imagenTipo,
+          imagen: `/api/imagenes/noticia/${id}`,
+        };
+      }
+    }
+
+    const r = await prisma.noticia.update({ where: { id }, data });
     return this.aEntidad(r);
   }
 

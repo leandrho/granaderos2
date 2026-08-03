@@ -3,14 +3,19 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { PrismaNoticiaRepository } from "@/infrastructure/repositories/PrismaNoticiaRepository";
-import { AdminNoticiaSchema } from "@/application/dtos/admin.noticia.dto";
+import { AdminNoticiaSchema, AdminNoticiaDTO } from "@/application/dtos/admin.noticia.dto";
 import { slugificar } from "@/lib/utils/slug";
+import {
+  FORMATOS_NOTICIA,
+  procesarArchivoImagen,
+} from "@/lib/utils/imagen";
 
 const repositorio = () => new PrismaNoticiaRepository();
 
 export interface EstadoNoticia {
   errores?: Record<string, string[] | undefined>;
   error?: string;
+  errorImagen?: string;
 }
 
 export async function getNoticiasAction(soloPublicadas = false) {
@@ -23,12 +28,21 @@ export async function getNoticiaByIdAction(id: number) {
   return noticia ? noticia.toJSON() : null;
 }
 
-async function resolverInput(formData: FormData) {
+type NoticiaConImagen = AdminNoticiaDTO & {
+  imagenBin?: Uint8Array<ArrayBuffer> | null;
+  imagenTipo?: string | null;
+};
+
+type ResultadoInput =
+  | { ok: true; data: NoticiaConImagen }
+  | { ok: false; errores?: Record<string, string[] | undefined>; errorImagen?: string };
+
+async function resolverInput(formData: FormData): Promise<ResultadoInput> {
   const titulo = String(formData.get("titulo") ?? "");
   const slugManual = String(formData.get("slug") ?? "").trim();
   const slug = slugManual || slugificar(titulo);
 
-  return AdminNoticiaSchema.safeParse({
+  const resultado = AdminNoticiaSchema.safeParse({
     titulo,
     slug,
     descripcionBreve: formData.get("descripcionBreve"),
@@ -38,6 +52,35 @@ async function resolverInput(formData: FormData) {
     fecha: formData.get("fecha"),
     publicado: formData.get("publicado"),
   });
+
+  if (!resultado.success) {
+    return { ok: false, errores: resultado.error.flatten().fieldErrors };
+  }
+
+  const archivo = formData.get("imagenFile");
+  const imagen = await procesarArchivoImagen(
+    archivo instanceof File ? archivo : null,
+    FORMATOS_NOTICIA
+  );
+
+  if (imagen && !imagen.ok) {
+    return { ok: false, errorImagen: imagen.error };
+  }
+
+  const data = resultado.data;
+
+  if (imagen?.ok) {
+    return {
+      ok: true,
+      data: { ...data, imagenBin: imagen.bytes, imagenTipo: imagen.tipo },
+    };
+  }
+
+  if (formData.get("quitarImagen") === "on") {
+    return { ok: true, data: { ...data, imagenBin: null, imagenTipo: null } };
+  }
+
+  return { ok: true, data };
 }
 
 export async function crearNoticia(
@@ -46,8 +89,11 @@ export async function crearNoticia(
 ): Promise<EstadoNoticia> {
   const resultado = await resolverInput(formData);
 
-  if (!resultado.success) {
-    return { errores: resultado.error.flatten().fieldErrors };
+  if (!resultado.ok) {
+    return {
+      errores: resultado.errores,
+      errorImagen: resultado.errorImagen,
+    };
   }
 
   try {
@@ -74,8 +120,11 @@ export async function actualizarNoticia(
 ): Promise<EstadoNoticia> {
   const resultado = await resolverInput(formData);
 
-  if (!resultado.success) {
-    return { errores: resultado.error.flatten().fieldErrors };
+  if (!resultado.ok) {
+    return {
+      errores: resultado.errores,
+      errorImagen: resultado.errorImagen,
+    };
   }
 
   try {

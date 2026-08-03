@@ -12,6 +12,8 @@ model Equipo {
   nombre    String   @unique
   direccion String
   logo      String?
+  logoBin   Bytes?
+  logoTipo  String?
   ciudad    String?
   estadio   String?
   createdAt DateTime @default(now())
@@ -30,6 +32,8 @@ model Noticia {
   descripcionBreve   String
   descripcionDetalle String
   imagen             String
+  imagenBin          Bytes?
+  imagenTipo         String?
   categoria          String
   publicado          Boolean  @default(true)
   fecha              DateTime

@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/admin/noticias.admin.actions";
 import { slugificar } from "@/lib/utils/slug";
 import { Campo, INPUT_CLASES, TEXTAREA_CLASES } from "./Campo";
+import { CampoImagen } from "./CampoImagen";
 import { BotonEnviar } from "./BotonEnviar";
 
 interface NoticiaFormProps {
@@ -46,7 +47,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
   const errores = estado.errores ?? {};
 
   return (
-    <form action={formAction} className="flex flex-col gap-5">
+    <form action={formAction} encType="multipart/form-data" className="flex flex-col gap-5">
       <div className="grid gap-5 md:grid-cols-2">
         <Campo label="Título *" htmlFor="titulo" error={errores.titulo?.[0]}>
           <input
@@ -78,7 +79,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
         </Campo>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-2">
         <Campo label="Categoría *" htmlFor="categoria" error={errores.categoria?.[0]}>
           <input
             id="categoria"
@@ -101,22 +102,18 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
             className={INPUT_CLASES}
           />
         </Campo>
-
-        <Campo
-          label="Imagen"
-          htmlFor="imagen"
-          error={errores.imagen?.[0]}
-        >
-          <input
-            id="imagen"
-            name="imagen"
-            type="text"
-            defaultValue={valoresIniciales?.imagen ?? ""}
-            placeholder="/news/imagen.jpg"
-            className={INPUT_CLASES}
-          />
-        </Campo>
       </div>
+
+      <CampoImagen
+        nombre="imagen"
+        etiqueta="Imagen"
+        htmlFor="imagen"
+        valorActual={valoresIniciales?.imagen ?? ""}
+        aceptar="image/jpeg,image/png,image/webp,image/avif"
+        permitidos="jpg, png, webp, avif"
+        error={errores.imagen?.[0]}
+        errorImagen={estado.errorImagen}
+      />
 
       <Campo
         label="Descripción breve *"

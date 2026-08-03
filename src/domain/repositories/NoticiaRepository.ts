@@ -6,6 +6,8 @@ export interface NoticiaInput {
   descripcionBreve: string;
   descripcionDetalle: string;
   imagen: string;
+  imagenBin?: Uint8Array<ArrayBuffer> | null;
+  imagenTipo?: string | null;
   categoria: string;
   publicado: boolean;
   fecha: Date;

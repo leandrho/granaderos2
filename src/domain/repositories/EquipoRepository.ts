@@ -4,6 +4,8 @@ export interface EquipoInput {
   nombre: string;
   direccion: string;
   logo: string | null;
+  logoBin?: Uint8Array<ArrayBuffer> | null;
+  logoTipo?: string | null;
   ciudad: string | null;
   estadio: string | null;
 }
