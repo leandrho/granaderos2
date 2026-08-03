@@ -1,6 +1,6 @@
 import { NoticiaRepository, NoticiaInput } from "@/domain/repositories/NoticiaRepository";
 import { Noticia } from "@/domain/entities/Noticia";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "../db/prisma";
 export class PrismaNoticiaRepository implements NoticiaRepository {
   async obtenerTodas(soloPublicadas = true): Promise<Noticia[]> {

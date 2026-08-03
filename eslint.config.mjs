@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Junk descargado por accidente en Create Next App (ver AGENTS.md).
     "public/icons/Create Next App.html",
     "public/icons/Create Next App_files/**",
+    // Prisma v7 generated client.
+    "generated/**",
   ]),
 ]);
 

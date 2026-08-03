@@ -44,6 +44,9 @@ next-env.d.ts
 *.db
 *.db-journal
 
+# prisma (v7 generated client)
+/generated
+
 
 # opencode (secrets)
 /opencode.json

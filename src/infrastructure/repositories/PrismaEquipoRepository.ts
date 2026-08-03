@@ -1,6 +1,6 @@
 import { EquipoRepository, EquipoInput } from "@/domain/repositories/EquipoRepository";
 import { Equipo } from "@/domain/entities/Equipo";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "../db/prisma";
 
 export class PrismaEquipoRepository implements EquipoRepository {
