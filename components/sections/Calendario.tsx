@@ -42,9 +42,23 @@ export function EventoCalendarioCard({
             />
           ) : null}
           <h3 className="font-headline text-2xl uppercase leading-none text-on-surface">
-            {evento.equipo1.nombre} <span className="text-secondary">vs</span>{" "}
+            {evento.equipo1.nombre}
+          </h3>
+          <span className="font-headline text-2xl leading-none text-secondary">
+            vs
+          </span>
+          <h3 className="font-headline text-2xl uppercase leading-none text-on-surface">
             {evento.equipo2.nombre}
           </h3>
+          {evento.equipo2.logo ? (
+            <Image
+              src={evento.equipo2.logo}
+              alt={`Escudo de ${evento.equipo2.nombre}`}
+              width={40}
+              height={40}
+              className="h-10 w-10 shrink-0 object-contain"
+            />
+          ) : null}
         </div>
         <p className="font-label text-sm uppercase tracking-[0.1em] text-on-surface/60">
           <time dateTime={aISO(evento.fecha)}>

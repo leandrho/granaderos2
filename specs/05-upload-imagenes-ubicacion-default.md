@@ -1,6 +1,6 @@
 # SPEC 05 — Subida de imágenes (BLOB) y ubicación por defecto en Calendario
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** SPEC 04
 > **Fecha:** 2026-08-03
 > **Objetivo:** Permitir subir imágenes desde el panel para Noticias y Equipos guardándolas como BLOB en SQLite (con el campo `imagen`/`logo` reutilizado como referencia de URL) y precargar la ubicación de un evento de calendario con la dirección del equipo local.

@@ -47,7 +47,7 @@ async function resolverInput(formData: FormData): Promise<ResultadoInput> {
     slug,
     descripcionBreve: formData.get("descripcionBreve"),
     descripcionDetalle: formData.get("descripcionDetalle"),
-    imagen: formData.get("imagen"),
+    imagen: String(formData.get("imagen") ?? ""),
     categoria: formData.get("categoria"),
     fecha: formData.get("fecha"),
     publicado: formData.get("publicado"),
