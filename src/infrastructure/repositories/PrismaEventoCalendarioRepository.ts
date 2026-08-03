@@ -1,4 +1,7 @@
-import { EventoCalendarioRepository } from "@/domain/repositories/EventoCalendarioRepository";
+import {
+  EventoCalendarioRepository,
+  EventoCalendarioInput,
+} from "@/domain/repositories/EventoCalendarioRepository";
 import { EventoCalendario } from "@/domain/entities/EventoCalendario";
 import { Equipo } from "@/domain/entities/Equipo";
 import { prisma } from "../db/prisma";
@@ -26,24 +29,30 @@ export class PrismaEventoCalendarioRepository
     return this.aEntidad(r);
   }
 
-  async guardar(evento: EventoCalendario): Promise<void> {
-    const data = {
-      equipo1Id: evento.equipo1.id,
-      equipo2Id: evento.equipo2.id,
-      ubicacion: evento.ubicacion,
-      descripcionBreve: evento.descripcionBreve ?? null,
-      descripcionDetalle: evento.descripcionDetalle ?? null,
-      imagen: evento.imagen ?? null,
-      categoria: evento.categoria,
-      publicado: evento.publicado,
-      fecha: evento.fecha,
-    };
-
-    await prisma.eventoCalendario.upsert({
-      where: { id: evento.id },
-      update: data,
-      create: data,
+  async crear(input: EventoCalendarioInput): Promise<EventoCalendario> {
+    const r = await prisma.eventoCalendario.create({
+      data: input,
+      include: { equipo1: true, equipo2: true },
     });
+
+    return this.aEntidad(r);
+  }
+
+  async actualizar(
+    id: number,
+    input: EventoCalendarioInput
+  ): Promise<EventoCalendario> {
+    const r = await prisma.eventoCalendario.update({
+      where: { id },
+      data: input,
+      include: { equipo1: true, equipo2: true },
+    });
+
+    return this.aEntidad(r);
+  }
+
+  async eliminar(id: number): Promise<void> {
+    await prisma.eventoCalendario.delete({ where: { id } });
   }
 
   private aEntidad(r: {
