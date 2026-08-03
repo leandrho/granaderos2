@@ -1,0 +1,59 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Equipo {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @unique
+  direccion String
+  logo      String?
+  ciudad    String?
+  estadio   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  eventosComoLocal     EventoCalendario[] @relation("equipo1")
+  eventosComoVisitante EventoCalendario[] @relation("equipo2")
+
+  @@map("equipos")
+}
+
+model Noticia {
+  id                 Int      @id @default(autoincrement())
+  titulo             String
+  slug               String   @unique
+  descripcionBreve   String
+  descripcionDetalle String
+  imagen             String
+  categoria          String
+  publicado          Boolean  @default(true)
+  fecha              DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("noticias")
+}
+
+model EventoCalendario {
+  id                 Int      @id @default(autoincrement())
+  equipo1Id          Int
+  equipo2Id          Int
+  equipo1            Equipo   @relation("equipo1", fields: [equipo1Id], references: [id])
+  equipo2            Equipo   @relation("equipo2", fields: [equipo2Id], references: [id])
+  ubicacion          String
+  descripcionBreve   String?
+  descripcionDetalle String?
+  imagen             String?
+  categoria          String
+  publicado          Boolean  @default(true)
+  fecha              DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@map("calendario")
+}

@@ -1,14 +1,16 @@
 import Image from "next/image";
-import { NOTICIAS, type Noticia } from "@/lib/data/noticias";
-import { formatearFechaCorta } from "@/lib/utils/date";
+import { ObtenerNoticiasUseCase } from "@/application/use-cases/ObtenerNoticias";
+import { PrismaNoticiaRepository } from "@/infrastructure/repositories/PrismaNoticiaRepository";
+import type { Noticia } from "@/domain/entities/Noticia";
+import { aISO, formatearFechaCorta } from "@/lib/utils/date";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-function NoticiaCard({ noticia }: { noticia: Noticia }) {
+export function NoticiaCard({ noticia }: { noticia: Noticia }) {
   return (
     <a
-      href="/noticias"
+      href={`/noticias/${noticia.id}`}
       className="group flex flex-col border border-white/10 bg-gradient-to-br from-primary to-stadium-black transition-colors hover:border-secondary"
     >
       {noticia.imagen ? (
@@ -17,7 +19,7 @@ function NoticiaCard({ noticia }: { noticia: Noticia }) {
           alt={noticia.titulo}
           width={640}
           height={360}
-          className="aspect-video w-full object-cover"
+          className="aspect-video w-full object-contain"
         />
       ) : (
         <div
@@ -30,7 +32,7 @@ function NoticiaCard({ noticia }: { noticia: Noticia }) {
         <div className="flex items-center gap-3">
           <Badge>{noticia.categoria}</Badge>
           <time
-            dateTime={noticia.fecha}
+            dateTime={aISO(noticia.fecha)}
             className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/60"
           >
             {formatearFechaCorta(noticia.fecha)}
@@ -40,7 +42,9 @@ function NoticiaCard({ noticia }: { noticia: Noticia }) {
         <h3 className="font-headline text-2xl uppercase leading-none tracking-wide text-on-surface group-hover:text-gold-glimmer">
           {noticia.titulo}
         </h3>
-        <p className="text-sm leading-6 text-on-surface/70">{noticia.extracto}</p>
+        <p className="text-sm leading-6 text-on-surface/70">
+          {noticia.descripcionBreve}
+        </p>
 
         <span className="mt-auto pt-2 font-label text-xs font-bold uppercase tracking-[0.1em] text-secondary">
           Leer más →
@@ -50,7 +54,10 @@ function NoticiaCard({ noticia }: { noticia: Noticia }) {
   );
 }
 
-export function Noticias() {
+export async function Noticias() {
+  const useCase = new ObtenerNoticiasUseCase(new PrismaNoticiaRepository());
+  const noticias = await useCase.execute();
+
   return (
     <section id="noticias" className="scroll-mt-24 bg-stadium-black py-24">
       <div className="mx-auto max-w-[1280px] px-6 md:px-12">
@@ -62,7 +69,7 @@ export function Noticias() {
         </div>
 
         <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {NOTICIAS.slice(0, 3).map((noticia) => (
+          {noticias.slice(0, 3).map((noticia) => (
             <NoticiaCard key={noticia.id} noticia={noticia} />
           ))}
         </div>
