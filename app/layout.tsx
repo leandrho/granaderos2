@@ -30,6 +30,8 @@ export const metadata: Metadata = {
   description: SITE.descripcion,
 };
 
+const themeScript = `(function(){try{var s=localStorage.getItem("grana-theme");var d=s==="dark"||(s!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);var t=d?"dark":"light";document.documentElement.setAttribute("data-theme",t);document.documentElement.style.colorScheme=t}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,8 +40,16 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      data-theme="dark"
+      suppressHydrationWarning
       className={`${anton.variable} ${hankenGrotesk.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: themeScript }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

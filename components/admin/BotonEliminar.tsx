@@ -41,14 +41,14 @@ export function BotonEliminar({ id, eliminar, nombre }: BotonEliminarProps) {
           aria-labelledby="titulo-modal-eliminar"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4"
         >
-          <div className="w-full max-w-md border border-white/15 bg-primary p-8">
+          <div className="w-full max-w-md border border-line/15 bg-primary p-8">
             <h2
               id="titulo-modal-eliminar"
-              className="font-headline text-2xl uppercase leading-none tracking-wide text-on-surface"
+              className="font-headline text-2xl uppercase leading-none tracking-wide text-on-navy"
             >
               ¿Eliminar {nombre}?
             </h2>
-            <p className="mt-3 text-sm leading-6 text-on-surface/70">
+            <p className="mt-3 text-sm leading-6 text-on-navy/70">
               Esta acción es permanente y no se puede deshacer.
             </p>
 
@@ -63,7 +63,7 @@ export function BotonEliminar({ id, eliminar, nombre }: BotonEliminarProps) {
                 type="button"
                 onClick={() => setAbierto(false)}
                 disabled={pendiente}
-                className="border border-white/25 px-5 py-2.5 font-headline text-sm uppercase leading-none text-on-surface transition-colors hover:bg-white/10 disabled:opacity-60"
+                className="border border-line/25 px-5 py-2.5 font-headline text-sm uppercase leading-none text-on-navy transition-colors hover:bg-on-surface/10 disabled:opacity-60"
               >
                 Cancelar
               </button>

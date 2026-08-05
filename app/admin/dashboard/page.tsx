@@ -44,8 +44,8 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <header className="border-b border-white/10 pb-6">
-        <p className="font-label text-sm uppercase tracking-[0.1em] text-gold-glimmer">
+      <header className="border-b border-line/10 pb-6">
+        <p className="font-label text-sm uppercase tracking-[0.1em] text-gold">
           Panel de administración
         </p>
         <h1 className="mt-3 font-headline text-4xl uppercase leading-none tracking-wide text-on-surface md:text-5xl">
@@ -58,15 +58,15 @@ export default async function AdminDashboardPage() {
           <Link
             key={clave}
             href={RUTAS[clave]}
-            className="group border border-white/10 bg-primary p-6 transition-colors hover:border-secondary"
+            className="group border border-line/10 bg-primary p-6 transition-colors hover:border-secondary"
           >
-            <p className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/50">
+            <p className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/50">
               {TITULOS[clave]}
             </p>
             <p className="mt-4 font-headline text-5xl uppercase leading-none text-secondary">
               {cantidad}
             </p>
-            <p className="mt-3 font-label text-xs uppercase tracking-[0.1em] text-on-surface/60">
+            <p className="mt-3 font-label text-xs uppercase tracking-[0.1em] text-on-navy/60">
               {detalle}
             </p>
             <p className="mt-4 font-label text-xs uppercase tracking-[0.1em] text-gold-glimmer opacity-0 transition-opacity group-hover:opacity-100">
@@ -76,29 +76,29 @@ export default async function AdminDashboardPage() {
         ))}
       </section>
 
-      <section className="mt-10 border border-white/10 bg-primary p-6">
-        <h2 className="font-headline text-2xl uppercase leading-none tracking-wide text-on-surface">
+      <section className="mt-10 border border-line/10 bg-primary p-6">
+        <h2 className="font-headline text-2xl uppercase leading-none tracking-wide text-on-navy">
           Próximo partido
         </h2>
         {proximoEvento ? (
           <div className="mt-4 flex flex-col gap-1">
             <p className="font-headline text-xl uppercase leading-none tracking-wide text-secondary">
               {proximoEvento.equipo1.nombre}
-              <span className="mx-3 text-on-surface/40">vs</span>
+              <span className="mx-3 text-on-navy/40">vs</span>
               {proximoEvento.equipo2.nombre}
             </p>
-            <p className="mt-2 font-label text-sm uppercase tracking-[0.1em] text-on-surface/70">
+            <p className="mt-2 font-label text-sm uppercase tracking-[0.1em] text-on-navy/70">
               {formatearFechaCorta(proximoEvento.fecha)} · {proximoEvento.ubicacion}
             </p>
             <Link
               href="/admin/calendario"
-              className="mt-4 w-fit font-label text-xs uppercase tracking-[0.1em] text-gold-glimmer transition-colors hover:text-on-surface"
+              className="mt-4 w-fit font-label text-xs uppercase tracking-[0.1em] text-gold-glimmer transition-colors hover:text-on-navy"
             >
               Ver calendario →
             </Link>
           </div>
         ) : (
-          <p className="mt-3 text-on-surface/60">
+          <p className="mt-3 text-on-navy/60">
             No hay partidos próximos. Cargá uno desde el calendario.
           </p>
         )}

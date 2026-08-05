@@ -22,7 +22,7 @@ export default function ElClubPage() {
       <main className="flex-1">
         <PageHeader title="El Club" />
 
-        <section className="border-t border-white/10 bg-surface pb-24 pt-10">
+        <section className="border-t border-line/10 bg-surface pb-24 pt-10">
           <div className="mx-auto max-w-[1280px] px-6 md:px-12">
             <div className="grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
               <SectionHeading eyebrow="Nuestro propósito" title="Misión" size="md" />
@@ -33,20 +33,20 @@ export default function ElClubPage() {
           </div>
         </section>
 
-        <section className="border-t border-white/10 bg-gradient-to-b from-primary to-stadium-black py-24">
+        <section className="border-t border-line/10 bg-gradient-to-b from-primary to-stadium-black py-24">
           <div className="mx-auto max-w-[1280px] px-6 md:px-12">
-            <SectionHeading eyebrow="Hacia dónde vamos" title="Objetivos" />
+            <SectionHeading eyebrow="Hacia dónde vamos" title="Objetivos" tono="navy" />
 
             <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_2fr] lg:gap-16">
               <div>
                 <p className="font-label text-sm uppercase tracking-[0.1em] text-secondary">
                   Objetivo general
                 </p>
-                <h3 className="mt-3 font-headline text-3xl uppercase leading-none tracking-wide text-on-surface">
+                <h3 className="mt-3 font-headline text-3xl uppercase leading-none tracking-wide text-on-navy">
                   General
                 </h3>
               </div>
-              <p className="max-w-xl text-lg leading-8 text-on-surface/80">
+              <p className="max-w-xl text-lg leading-8 text-on-navy/80">
                 {OBJETIVO_GENERAL}
               </p>
             </div>
@@ -59,15 +59,15 @@ export default function ElClubPage() {
                 {OBJETIVOS_ESPECIFICOS.map((objetivo) => (
                   <article
                     key={objetivo.numero}
-                    className="border border-white/10 bg-gradient-to-br from-primary to-stadium-black p-8"
+                    className="border border-line/10 bg-gradient-to-br from-primary to-stadium-black p-8"
                   >
                     <span className="font-headline text-5xl leading-none text-secondary">
                       {objetivo.numero}
                     </span>
-                    <h3 className="mt-6 font-headline text-2xl uppercase leading-none tracking-wide text-on-surface">
+                    <h3 className="mt-6 font-headline text-2xl uppercase leading-none tracking-wide text-on-navy">
                       {objetivo.titulo}
                     </h3>
-                    <p className="mt-4 leading-7 text-on-surface/80">
+                    <p className="mt-4 leading-7 text-on-navy/80">
                       {objetivo.descripcion}
                     </p>
                   </article>

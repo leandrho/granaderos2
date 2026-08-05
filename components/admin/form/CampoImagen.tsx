@@ -40,7 +40,7 @@ export function CampoImagen({
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/70">
+      <span className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/70">
         {etiqueta}
       </span>
 
@@ -51,7 +51,7 @@ export function CampoImagen({
             alt="Imagen actual"
             width={80}
             height={80}
-            className="h-20 w-20 border border-white/15 bg-surface object-contain p-1"
+            className="h-20 w-20 border border-line/15 bg-surface object-contain p-1"
           />
           <input
             id={htmlFor}
@@ -72,7 +72,7 @@ export function CampoImagen({
           const archivo = e.target.files?.[0];
           setPreviewUrl(archivo ? URL.createObjectURL(archivo) : null);
         }}
-        className="block w-full border border-white/15 bg-surface px-4 py-3 text-sm text-on-surface/70 file:mr-4 file:border-0 file:bg-secondary/20 file:px-4 file:py-2 file:font-label file:text-xs file:uppercase file:tracking-[0.1em] file:text-secondary"
+        className="block w-full border border-line/15 bg-surface px-4 py-3 text-sm text-on-surface/70 file:mr-4 file:border-0 file:bg-secondary/20 file:px-4 file:py-2 file:font-label file:text-xs file:uppercase file:tracking-[0.1em] file:text-secondary"
       />
 
       {previewUrl ? (
@@ -84,7 +84,7 @@ export function CampoImagen({
         />
       ) : null}
 
-      <p className="font-label text-xs text-on-surface/40">
+      <p className="font-label text-xs text-on-navy/40">
         Formato: {permitidos} · Máx. 2 MB
       </p>
 
@@ -95,7 +95,7 @@ export function CampoImagen({
             name={quitarNombre}
             className="h-5 w-5 accent-[#c5a059]"
           />
-          <span className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/70">
+          <span className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/70">
             Quitar imagen
           </span>
         </label>

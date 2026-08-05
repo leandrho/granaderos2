@@ -24,7 +24,7 @@ export default async function CalendarioPage() {
       <main className="flex-1">
         <PageHeader title="Calendario" eyebrow="Próximos partidos" />
 
-        <section className="border-t border-white/10 bg-surface py-24">
+        <section className="border-t border-line/10 bg-surface py-24">
           <div className="mx-auto max-w-[1280px] px-6 md:px-12">
             <div className="flex flex-col gap-4">
               {eventos.map((evento) => (

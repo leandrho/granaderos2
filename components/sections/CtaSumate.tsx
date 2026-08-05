@@ -19,8 +19,9 @@ export function CtaSumate() {
             </>
           }
           align="center"
+          tono="navy"
         />
-        <p className="mt-6 max-w-xl text-lg leading-7 text-on-surface/80">
+        <p className="mt-6 max-w-xl text-lg leading-7 text-on-navy/80">
           Si te gusta el fútbol y querés formar parte de la familia Granadera,
           escribinos y sumate a alguna de nuestras categorías. Te esperamos.
         </p>

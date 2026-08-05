@@ -31,7 +31,7 @@ const VARIANTES: Record<Variante, string> = {
   primary:
     "bg-secondary font-headline text-black uppercase leading-none transition-colors hover:bg-gold-glimmer",
   outline:
-    "border-2 border-white font-headline text-on-surface uppercase leading-none transition-colors hover:bg-white hover:text-primary",
+    "border-2 border-line font-headline text-on-navy uppercase leading-none transition-colors hover:bg-on-surface hover:text-primary",
 };
 
 export function Button({

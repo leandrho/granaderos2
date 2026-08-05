@@ -11,9 +11,9 @@ export default async function AdminEquiposPage() {
 
   return (
     <div>
-      <header className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-6">
+      <header className="flex flex-wrap items-end justify-between gap-4 border-b border-line/10 pb-6">
         <div>
-          <p className="font-label text-sm uppercase tracking-[0.1em] text-gold-glimmer">
+          <p className="font-label text-sm uppercase tracking-[0.1em] text-gold">
             Gestión de contenido
           </p>
           <h1 className="mt-3 font-headline text-4xl uppercase leading-none tracking-wide text-on-surface md:text-5xl">
@@ -28,16 +28,16 @@ export default async function AdminEquiposPage() {
         </Link>
       </header>
 
-      <div className="mt-8 overflow-x-auto border border-white/10">
+      <div className="mt-8 overflow-x-auto border border-line/10">
         <table className="w-full min-w-[720px] border-collapse text-left">
           <thead>
-            <tr className="border-b border-white/10 bg-primary">
+            <tr className="border-b border-line/10 bg-primary">
               {["Logo", "Nombre", "Estadio", "Ciudad", "Dirección", "Acciones"].map(
                 (encabezado) => (
                   <th
                     key={encabezado}
                     scope="col"
-                    className="px-4 py-3 font-label text-xs uppercase tracking-[0.1em] text-on-surface/60"
+                    className="px-4 py-3 font-label text-xs uppercase tracking-[0.1em] text-on-navy/60"
                   >
                     {encabezado}
                   </th>
@@ -56,7 +56,7 @@ export default async function AdminEquiposPage() {
               equipos.map((equipo) => (
                 <tr
                   key={equipo.id}
-                  className="border-b border-white/5 transition-colors hover:bg-white/5"
+                  className="border-b border-line/5 transition-colors hover:bg-on-surface/5"
                 >
                   <td className="px-4 py-3">
                     {equipo.logo ? (

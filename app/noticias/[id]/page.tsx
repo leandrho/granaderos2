@@ -56,19 +56,19 @@ export default async function NoticiaDetallePage({
       <main className="flex-1">
         <PageHeader title={noticia.titulo} eyebrow={noticia.categoria} />
 
-        <article className="border-t border-white/10 bg-stadium-black py-24">
+        <article className="border-t border-line/10 bg-stadium-black py-24">
           <div className="mx-auto max-w-4xl px-6 md:px-12">
             <div className="flex flex-wrap items-center gap-4">
               <Badge>{noticia.categoria}</Badge>
               <time
                 dateTime={aISO(noticia.fecha)}
-                className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/60"
+                className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/60"
               >
                 {formatearFechaLarga(noticia.fecha)}
               </time>
             </div>
 
-            <p className="mt-6 text-lg leading-8 text-on-surface/80">
+            <p className="mt-6 text-lg leading-8 text-on-navy/80">
               {noticia.descripcionBreve}
             </p>
 
@@ -89,7 +89,7 @@ export default async function NoticiaDetallePage({
 
             <div className="mt-10 flex flex-col gap-5">
               {parrafos.map((parrafo, indice) => (
-                <p key={indice} className="text-base leading-7 text-on-surface/75">
+                <p key={indice} className="text-base leading-7 text-on-navy/75">
                   {parrafo}
                 </p>
               ))}

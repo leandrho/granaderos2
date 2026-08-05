@@ -11,7 +11,7 @@ export function NoticiaCard({ noticia }: { noticia: Noticia }) {
   return (
     <a
       href={`/noticias/${noticia.id}`}
-      className="group flex flex-col border border-white/10 bg-gradient-to-br from-primary to-stadium-black transition-colors hover:border-secondary"
+      className="group flex flex-col border border-line/10 bg-gradient-to-br from-primary to-stadium-black transition-colors hover:border-secondary"
     >
       {noticia.imagen ? (
         <Image
@@ -33,16 +33,16 @@ export function NoticiaCard({ noticia }: { noticia: Noticia }) {
           <Badge>{noticia.categoria}</Badge>
           <time
             dateTime={aISO(noticia.fecha)}
-            className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/60"
+            className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/60"
           >
             {formatearFechaCorta(noticia.fecha)}
           </time>
         </div>
 
-        <h3 className="font-headline text-2xl uppercase leading-none tracking-wide text-on-surface group-hover:text-gold-glimmer">
+        <h3 className="font-headline text-2xl uppercase leading-none tracking-wide text-on-navy group-hover:text-gold-glimmer">
           {noticia.titulo}
         </h3>
-        <p className="text-sm leading-6 text-on-surface/70">
+        <p className="text-sm leading-6 text-on-navy/70">
           {noticia.descripcionBreve}
         </p>
 
@@ -62,7 +62,11 @@ export async function Noticias() {
     <section id="noticias" className="scroll-mt-24 bg-stadium-black py-24">
       <div className="mx-auto max-w-[1280px] px-6 md:px-12">
         <div className="mt-4 flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="Novedades del club" title="Últimas noticias" />
+          <SectionHeading
+            eyebrow="Novedades del club"
+            title="Últimas noticias"
+            tono="navy"
+          />
           <Button href="/noticias" variant="outline" size="md">
             Ver todas
           </Button>

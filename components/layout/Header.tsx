@@ -6,6 +6,7 @@ import { useState } from "react";
 import { NAV_LINKS } from "@/lib/data/nav";
 import { SITE } from "@/lib/site";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,7 +15,7 @@ export function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className="flex items-center justify-between border-b border-white/10 bg-surface/80 px-6 py-4 backdrop-blur-md md:px-12">
+      <div className="flex items-center justify-between border-b border-line/10 bg-surface/80 px-6 py-4 backdrop-blur-md md:px-12">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/logo.png"
@@ -37,7 +38,7 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-label text-sm uppercase tracking-[0.1em] text-on-surface/70 transition-colors hover:text-gold-glimmer"
+              className="font-label text-sm uppercase tracking-[0.1em] text-on-surface-muted transition-colors hover:text-gold"
             >
               {link.label}
             </Link>
@@ -45,6 +46,8 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
+
           <Button href="/contacto" size="sm" className="hidden md:inline-flex">
             Sumate al club
           </Button>
@@ -70,8 +73,8 @@ export function Header() {
       </div>
 
       {menuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-white/20 backdrop-blur-md md:hidden">
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+        <div className="fixed inset-0 z-50 flex flex-col bg-on-surface/20 backdrop-blur-md md:hidden">
+          <div className="flex items-center justify-between border-b border-line/10 px-6 py-4">
             <span className="flex items-center gap-3">
               <Image
                 src="/logo.png"
@@ -85,16 +88,19 @@ export function Header() {
                 <span className="text-secondary"> de Koslay</span>
               </span>
             </span>
-            <button
-              type="button"
-              aria-label="Cerrar menú"
-              onClick={closeMenu}
-              className="flex h-10 w-10 items-center justify-center text-on-surface"
-            >
-              <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            </button>
+            <span className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                type="button"
+                aria-label="Cerrar menú"
+                onClick={closeMenu}
+                className="flex h-10 w-10 items-center justify-center text-on-surface"
+              >
+                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </span>
           </div>
 
           <nav
@@ -106,7 +112,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={closeMenu}
-                className="font-headline text-2xl uppercase tracking-wide text-on-surface transition-colors hover:text-gold-glimmer"
+                className="font-headline text-2xl uppercase tracking-wide text-on-surface transition-colors hover:text-gold"
               >
                 {link.label}
               </Link>

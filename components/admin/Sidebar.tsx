@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { logoutAction } from "@/app/actions/admin/auth.admin.actions";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const LINKS = [
   { href: "/admin/dashboard", label: "Dashboard", icono: "▦" },
@@ -19,17 +21,18 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-full shrink-0 flex-col border-b border-white/10 bg-primary lg:w-64 lg:border-b-0 lg:border-r">
-      <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+    <aside className="flex w-full shrink-0 flex-col border-b border-line/10 bg-primary lg:w-64 lg:border-b-0 lg:border-r">
+      <div className="flex items-center justify-between border-b border-line/10 px-6 py-5">
         <Link href="/admin/dashboard" className="block">
-          <p className="font-headline text-lg uppercase leading-none tracking-wide text-on-surface">
+          <p className="font-headline text-lg uppercase leading-none tracking-wide text-on-navy">
             Granaderos
             <span className="text-secondary"> Admin</span>
           </p>
-          <p className="mt-1 font-label text-xs uppercase tracking-[0.1em] text-on-surface/50">
+          <p className="mt-1 font-label text-xs uppercase tracking-[0.1em] text-on-navy/50">
             Panel de gestión
           </p>
         </Link>
+        <ThemeToggle variante="navy" />
       </div>
 
       <nav className="flex flex-row gap-1 overflow-x-auto px-4 py-3 lg:flex-col lg:gap-2 lg:py-6" aria-label="Navegación del panel">
@@ -43,7 +46,7 @@ export function Sidebar() {
               className={`flex shrink-0 items-center gap-3 px-4 py-3 font-headline text-sm uppercase leading-none tracking-wide transition-colors ${
                 activo
                   ? "bg-secondary text-black"
-                  : "text-on-surface/70 hover:bg-white/5 hover:text-on-surface"
+                  : "text-on-navy/70 hover:bg-on-surface/5 hover:text-on-navy"
               }`}
             >
               <span aria-hidden className="text-xs">{link.icono}</span>
@@ -53,13 +56,21 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="mt-auto hidden border-t border-white/10 px-6 py-5 lg:block">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-line/10 px-6 py-5">
         <Link
           href="/"
-          className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/50 transition-colors hover:text-gold-glimmer"
+          className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/50 transition-colors hover:text-gold-glimmer"
         >
           ← Volver al sitio
         </Link>
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            className="font-label text-xs uppercase tracking-[0.1em] text-tertiary transition-colors hover:text-on-navy"
+          >
+            Cerrar sesión
+          </button>
+        </form>
       </div>
     </aside>
   );

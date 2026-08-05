@@ -22,8 +22,12 @@ export default async function NoticiasPage() {
       <main className="flex-1">
         <PageHeader title="Noticias" eyebrow="Novedades del club" />
 
-        <section className="border-t border-white/10 bg-stadium-black py-24">
-          <div className="mx-auto max-w-[1280px] px-6 md:px-12">
+        <section className="relative overflow-hidden border-t border-line/10 bg-primary py-24">
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-stadium-black"
+            aria-hidden
+          />
+          <div className="relative z-10 mx-auto max-w-[1280px] px-6 md:px-12">
             <div className="grid gap-4 md:grid-cols-3">
               {noticias.map((noticia) => (
                 <NoticiaCard key={noticia.id} noticia={noticia} />

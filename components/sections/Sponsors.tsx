@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Sponsors() {
   return (
-    <section id="sponsors" className="scroll-mt-24 border-y border-white/10 bg-surface py-16">
+    <section id="sponsors" className="scroll-mt-24 border-y border-line/10 bg-surface py-16">
       <div className="mx-auto max-w-[1280px] px-6 md:px-12">
         <SectionHeading
           eyebrow="Nos acompañan"

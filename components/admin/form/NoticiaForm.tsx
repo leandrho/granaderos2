@@ -143,7 +143,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
           minLength={10}
           defaultValue={valoresIniciales?.descripcionDetalle}
           placeholder="Texto completo de la noticia (mín. 10 caracteres)"
-          className="min-h-40 w-full resize-y border border-white/15 bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-on-surface/40 outline-none transition-colors focus:border-secondary"
+          className="min-h-40 w-full resize-y border border-line/15 bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-on-surface/40 outline-none transition-colors focus:border-secondary"
         />
       </Campo>
 
@@ -154,7 +154,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
           defaultChecked={valoresIniciales?.publicado ?? true}
           className="h-5 w-5 accent-[#c5a059]"
         />
-        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/70">
+        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/70">
           Publicado
         </span>
       </label>

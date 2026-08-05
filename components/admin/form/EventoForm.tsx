@@ -195,7 +195,7 @@ export function EventoForm({ id, equipos, valoresIniciales }: EventoFormProps) {
           defaultChecked={valoresIniciales?.publicado ?? true}
           className="h-5 w-5 accent-[#c5a059]"
         />
-        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/70">
+        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/70">
           Publicado
         </span>
       </label>

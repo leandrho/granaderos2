@@ -19,12 +19,12 @@ export function EventoCalendarioCard({
   const partes = partirFecha(evento.fecha);
 
   return (
-    <article className="flex flex-col gap-4 border border-white/10 bg-gradient-to-br from-primary to-stadium-black p-6 sm:flex-row sm:items-center sm:gap-6">
+    <article className="flex flex-col gap-4 border border-line/10 bg-gradient-to-br from-primary to-stadium-black p-6 sm:flex-row sm:items-center sm:gap-6">
       <div className="flex items-center gap-4 sm:w-24 sm:flex-col sm:gap-1 sm:text-center">
         <span className="font-headline text-5xl leading-none text-secondary">
           {partes?.dia}
         </span>
-        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-surface/70">
+        <span className="font-label text-xs uppercase tracking-[0.1em] text-on-navy/70">
           {mesCorto(evento.fecha)} {partes?.anio}
         </span>
       </div>
@@ -41,13 +41,13 @@ export function EventoCalendarioCard({
               className="h-10 w-10 shrink-0 object-contain"
             />
           ) : null}
-          <h3 className="font-headline text-2xl uppercase leading-none text-on-surface">
+          <h3 className="font-headline text-2xl uppercase leading-none text-on-navy">
             {evento.equipo1.nombre}
           </h3>
           <span className="font-headline text-2xl leading-none text-secondary">
             vs
           </span>
-          <h3 className="font-headline text-2xl uppercase leading-none text-on-surface">
+          <h3 className="font-headline text-2xl uppercase leading-none text-on-navy">
             {evento.equipo2.nombre}
           </h3>
           {evento.equipo2.logo ? (
@@ -60,12 +60,12 @@ export function EventoCalendarioCard({
             />
           ) : null}
         </div>
-        <p className="font-label text-sm uppercase tracking-[0.1em] text-on-surface/60">
+        <p className="font-label text-sm uppercase tracking-[0.1em] text-on-navy/60">
           <time dateTime={aISO(evento.fecha)}>
             {formatearFechaLarga(evento.fecha)}
           </time>
         </p>
-        <p className="text-sm text-on-surface/70">{evento.descripcionBreve}</p>
+        <p className="text-sm text-on-navy/70">{evento.descripcionBreve}</p>
         <p className="font-label text-xs uppercase tracking-[0.1em] text-secondary">
           {evento.ubicacion}
         </p>
