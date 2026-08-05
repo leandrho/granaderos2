@@ -67,3 +67,8 @@ export function formatearFechaLarga(fecha: string | Date): string {
     year: "numeric",
   }).format(new Date(partes.anio, partes.mes - 1, partes.dia));
 }
+
+export function aValorInputDatetimeLocal(fecha: Date): string {
+  const desplazamiento = fecha.getTimezoneOffset() * 60000;
+  return new Date(fecha.getTime() - desplazamiento).toISOString().slice(0, 16);
+}

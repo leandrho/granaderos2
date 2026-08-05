@@ -6,6 +6,7 @@ import {
   crearEvento,
   type EstadoEvento,
 } from "@/app/actions/admin/calendario.admin.actions";
+import { aValorInputDatetimeLocal } from "@/lib/utils/date";
 import { Campo, INPUT_CLASES, TEXTAREA_CLASES } from "./Campo";
 import { BotonEnviar } from "./BotonEnviar";
 
@@ -32,11 +33,6 @@ interface EventoFormProps {
 }
 
 const estadoInicial: EstadoEvento = {};
-
-function aValorInput(fecha: Date): string {
-  const desplazamiento = fecha.getTimezoneOffset() * 60000;
-  return new Date(fecha.getTime() - desplazamiento).toISOString().slice(0, 16);
-}
 
 function SelectEquipo({
   id,
@@ -137,7 +133,7 @@ export function EventoForm({ id, equipos, valoresIniciales }: EventoFormProps) {
             name="fecha"
             type="datetime-local"
             required
-            defaultValue={valoresIniciales ? aValorInput(valoresIniciales.fecha) : undefined}
+            defaultValue={valoresIniciales ? aValorInputDatetimeLocal(valoresIniciales.fecha) : undefined}
             className={INPUT_CLASES}
           />
         </Campo>

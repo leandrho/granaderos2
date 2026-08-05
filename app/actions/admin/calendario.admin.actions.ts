@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { PrismaEventoCalendarioRepository } from "@/infrastructure/repositories/PrismaEventoCalendarioRepository";
 import { AdminEventoSchema } from "@/application/dtos/admin.calendario.dto";
 import { requiereSesion } from "@/lib/auth/session";
+import { vacioANull } from "@/lib/utils/form";
 
 const repositorio = () => new PrismaEventoCalendarioRepository();
 
@@ -14,28 +15,25 @@ export interface EstadoEvento {
 }
 
 export async function getEventosAction(soloPublicados = false) {
+  if (!(await requiereSesion())) return [];
   const eventos = await repositorio().obtenerTodos(soloPublicados);
   return eventos.map((evento) => evento.toJSON());
 }
 
 export async function getEventoByIdAction(id: number) {
+  if (!(await requiereSesion())) return null;
   const evento = await repositorio().obtenerPorId(id);
   return evento ? evento.toJSON() : null;
 }
 
 async function resolverInput(formData: FormData) {
-  const vacioANull = (clave: string) => {
-    const valor = String(formData.get(clave) ?? "").trim();
-    return valor === "" ? null : valor;
-  };
-
   return AdminEventoSchema.safeParse({
     equipo1Id: formData.get("equipo1Id"),
     equipo2Id: formData.get("equipo2Id"),
     ubicacion: formData.get("ubicacion"),
-    descripcionBreve: vacioANull("descripcionBreve"),
-    descripcionDetalle: vacioANull("descripcionDetalle"),
-    imagen: vacioANull("imagen"),
+    descripcionBreve: vacioANull(formData, "descripcionBreve"),
+    descripcionDetalle: vacioANull(formData, "descripcionDetalle"),
+    imagen: vacioANull(formData, "imagen"),
     categoria: formData.get("categoria"),
     fecha: formData.get("fecha"),
     publicado: formData.get("publicado"),

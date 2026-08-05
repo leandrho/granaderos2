@@ -15,9 +15,10 @@ interface NoticiaDetalleProps {
   params: Promise<{ id: string }>;
 }
 
+const repositorio = () => new PrismaNoticiaRepository();
+
 export async function generateStaticParams() {
-  const useCase = new ObtenerNoticiasUseCase(new PrismaNoticiaRepository());
-  const noticias = await useCase.execute();
+  const noticias = await new ObtenerNoticiasUseCase(repositorio()).execute();
 
   return noticias.map((noticia) => ({ id: String(noticia.id) }));
 }
@@ -26,9 +27,9 @@ export async function generateMetadata({
   params,
 }: NoticiaDetalleProps): Promise<Metadata> {
   const { id } = await params;
-  const noticia = await new ObtenerNoticiaPorIdUseCase(
-    new PrismaNoticiaRepository()
-  ).execute(Number(id));
+  const noticia = await new ObtenerNoticiaPorIdUseCase(repositorio()).execute(
+    Number(id)
+  );
 
   return {
     title: noticia ? noticia.titulo : "Noticia no encontrada",
@@ -40,9 +41,9 @@ export default async function NoticiaDetallePage({
   params,
 }: NoticiaDetalleProps) {
   const { id } = await params;
-  const noticia = await new ObtenerNoticiaPorIdUseCase(
-    new PrismaNoticiaRepository()
-  ).execute(Number(id));
+  const noticia = await new ObtenerNoticiaPorIdUseCase(repositorio()).execute(
+    Number(id)
+  );
 
   if (!noticia) notFound();
 

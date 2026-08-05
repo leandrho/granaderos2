@@ -9,6 +9,7 @@ import {
   procesarArchivoImagen,
 } from "@/lib/utils/imagen";
 import { requiereSesion } from "@/lib/auth/session";
+import { vacioANull } from "@/lib/utils/form";
 
 const repositorio = () => new PrismaEquipoRepository();
 
@@ -19,11 +20,13 @@ export interface EstadoEquipo {
 }
 
 export async function getEquiposAction() {
+  if (!(await requiereSesion())) return [];
   const equipos = await repositorio().obtenerTodos();
   return equipos.map((equipo) => equipo.toJSON());
 }
 
 export async function getEquipoByIdAction(id: number) {
+  if (!(await requiereSesion())) return null;
   const equipo = await repositorio().obtenerPorId(id);
   return equipo ? equipo.toJSON() : null;
 }
@@ -38,17 +41,12 @@ type ResultadoInput =
   | { ok: false; errores?: Record<string, string[] | undefined>; errorImagen?: string };
 
 async function resolverInput(formData: FormData): Promise<ResultadoInput> {
-  const vacioANull = (clave: string) => {
-    const valor = String(formData.get(clave) ?? "").trim();
-    return valor === "" ? null : valor;
-  };
-
   const resultado = AdminEquipoSchema.safeParse({
     nombre: formData.get("nombre"),
     direccion: formData.get("direccion"),
-    logo: vacioANull("logo"),
-    ciudad: vacioANull("ciudad"),
-    estadio: vacioANull("estadio"),
+    logo: vacioANull(formData, "logo"),
+    ciudad: vacioANull(formData, "ciudad"),
+    estadio: vacioANull(formData, "estadio"),
   });
 
   if (!resultado.success) {

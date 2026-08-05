@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Prisma } from "@/generated/prisma/client";
 import { PrismaNoticiaRepository } from "@/infrastructure/repositories/PrismaNoticiaRepository";
 import { AdminNoticiaSchema, AdminNoticiaDTO } from "@/application/dtos/admin.noticia.dto";
 import { slugificar } from "@/lib/utils/slug";
@@ -13,6 +14,20 @@ import { requiereSesion } from "@/lib/auth/session";
 
 const repositorio = () => new PrismaNoticiaRepository();
 
+const ERROR_SLUG_DUPLICADO: EstadoNoticia = {
+  error: "Ya existe una noticia con ese slug. Elegí otro.",
+  errores: { slug: ["El slug ya está en uso."] },
+};
+
+function esSlugDuplicado(e: unknown): boolean {
+  return (
+    e instanceof Prisma.PrismaClientKnownRequestError &&
+    e.code === "P2002" &&
+    Array.isArray(e.meta?.target) &&
+    e.meta.target.includes("slug")
+  );
+}
+
 export interface EstadoNoticia {
   errores?: Record<string, string[] | undefined>;
   error?: string;
@@ -20,11 +35,13 @@ export interface EstadoNoticia {
 }
 
 export async function getNoticiasAction(soloPublicadas = false) {
+  if (!(await requiereSesion())) return [];
   const noticias = await repositorio().obtenerTodas(soloPublicadas);
   return noticias.map((noticia) => noticia.toJSON());
 }
 
 export async function getNoticiaByIdAction(id: number) {
+  if (!(await requiereSesion())) return null;
   const noticia = await repositorio().obtenerPorId(id);
   return noticia ? noticia.toJSON() : null;
 }
@@ -105,11 +122,8 @@ export async function crearNoticia(
   try {
     await repositorio().crear(resultado.data);
   } catch (e) {
-    if (e instanceof Error && e.message.includes("slug")) {
-      return {
-        error: "Ya existe una noticia con ese slug. Elegí otro.",
-        errores: { slug: ["El slug ya está en uso."] },
-      };
+    if (esSlugDuplicado(e)) {
+      return ERROR_SLUG_DUPLICADO;
     }
     return { error: "No se pudo crear la noticia. Intentá de nuevo." };
   }
@@ -141,11 +155,8 @@ export async function actualizarNoticia(
   try {
     await repositorio().actualizar(id, resultado.data);
   } catch (e) {
-    if (e instanceof Error && e.message.includes("slug")) {
-      return {
-        error: "Ya existe una noticia con ese slug. Elegí otro.",
-        errores: { slug: ["El slug ya está en uso."] },
-      };
+    if (esSlugDuplicado(e)) {
+      return ERROR_SLUG_DUPLICADO;
     }
     return { error: "No se pudo actualizar la noticia. Intentá de nuevo." };
   }

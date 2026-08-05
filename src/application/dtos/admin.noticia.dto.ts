@@ -1,9 +1,5 @@
 import { z } from "zod";
-
-const publicadoCheckbox = z.preprocess(
-  (v) => v === "on" || v === "true" || v === true,
-  z.boolean()
-);
+import { publicadoCheckbox, fechaRequerida } from "./form.helpers";
 
 export const AdminNoticiaSchema = z.object({
   titulo: z.string().min(3, "El título debe tener al menos 3 caracteres"),
@@ -22,9 +18,7 @@ export const AdminNoticiaSchema = z.object({
       message: "La imagen debe ser una ruta relativa (ej. /news/imagen.jpg)",
     }),
   categoria: z.string().min(1, "La categoría es requerida"),
-  fecha: z.coerce.date().refine((v) => !Number.isNaN(v.getTime()), {
-    message: "La fecha es requerida",
-  }),
+  fecha: fechaRequerida,
   publicado: publicadoCheckbox.default(true),
 });
 

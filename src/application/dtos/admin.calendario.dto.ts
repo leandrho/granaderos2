@@ -1,9 +1,5 @@
 import { z } from "zod";
-
-const publicadoCheckbox = z.preprocess(
-  (v) => v === "on" || v === "true" || v === true,
-  z.boolean()
-);
+import { publicadoCheckbox, fechaRequerida } from "./form.helpers";
 
 export const AdminEventoSchema = z.object({
   equipo1Id: z.coerce
@@ -29,9 +25,7 @@ export const AdminEventoSchema = z.object({
       message: "La imagen debe ser una ruta relativa (ej. /news/imagen.jpg)",
     }),
   categoria: z.string().min(1, "La categoría es requerida"),
-  fecha: z.coerce.date().refine((v) => !Number.isNaN(v.getTime()), {
-    message: "La fecha es requerida",
-  }),
+  fecha: fechaRequerida,
   publicado: publicadoCheckbox.default(true),
 });
 

@@ -6,28 +6,34 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Web del Club Deportivo Granaderos de Koslay
 
-Marketing site for an Argentine soccer club (Juana Koslay, San Luis). Static App Router site — no backend, no database, no tests.
+Marketing site for an Argentine soccer club (Juana Koslay, San Luis). App Router site with a public marketing side (SSR) and an authenticated admin panel backed by Prisma + SQLite.
 
 ## Stack & versions
 - Next.js **16.2.12** (App Router, React 19, Turbopack) + Tailwind **v4** (no `tailwind.config.*`; CSS-first via `@tailwindcss/postcss`).
-- TypeScript strict, path alias `@/*` → repo root (see `tsconfig.json`).
-- Next.js docs live in `node_modules/next/dist/docs/` — check there before writing code (see warning above).
+- TypeScript strict, path alias `@/*` → repo root and `./src/` (see `tsconfig.json`). `@/domain`, `@/application`, `@/infrastructure`, `@/generated` resolve into `src/`/`generated/`.
+- Prisma **7** (SQLite, driver adapter better-sqlite3), Zod **4** for input validation, `jose` for JWT, `bcryptjs` for hashes.
+- Next.js docs live in `node_modules/next/dist/docs/` — check there before writing code (see warning above). In Next.js 16, `middleware` is renamed to **`proxy.ts`**.
 
 ## Commands
 - `npm run dev` — dev server
 - `npm run lint` — ESLint (flat config, `eslint.config.mjs`); no `--fix`
 - `npm run build` — the only typecheck gate (`next build` runs `tsc`); run it to verify TS changes
+- `npm run reset-password` — `tsx scripts/reset-admin-password.ts` (admin password reset)
 - No test runner or standalone typecheck script exists.
 
 ## Architecture
-- Pages in `app/` compose `Header`/`Footer` (`components/layout/`) plus section components (`components/sections/`); generic UI in `components/ui/` (`Button`, `Badge`, `SectionHeading`, `PageHeader`).
-- All components are server components — no `"use client"` anywhere yet.
-- **Content is static and lives in data files, not components:** `lib/site.ts` (site-wide constants) and `lib/data/*.ts` (`nav`, `calendario`, `noticias`, `sponsors`, `el-club`, `footer`). Add/edit site content there.
+- **Public marketing site:** pages in `app/` compose `Header`/`Footer` (`components/layout/`) plus section components (`components/sections/`); generic UI in `components/ui/` (`Button`, `Badge`, `SectionHeading`, `PageHeader`).
+- **Admin panel** under `app/admin/*` (login at `/admin`, dashboard/CRUDs for noticias/calendario/equipos). Auth is enforced by `proxy.ts` (root `proxy.ts`, matcher `/admin/:path*`) + `requiereSesion()` defense-in-depth in every admin server action.
+- **Server actions** live centralized in `app/actions/` (`app/actions/admin/*` are the admin, auth-gated ones). No actions defined inline in pages.
+- **DDD layers under `src/`:** `domain` (entities + repository ports, no framework imports), `application` (use cases + Zod DTOs), `infrastructure` (Prisma adapters). Public read paths go through use cases; admin actions may use repositories directly. Prisma client singleton: `src/infrastructure/db/prisma.ts` (generated to `generated/prisma`, imported as `@/generated/prisma/client`).
+- **Content split:** static site content lives in `lib/site.ts` + `lib/data/*.ts` (`nav`, `sponsors`, `el-club`, `footer`). Dynamic content (noticias, calendario, equipos) lives in the DB via Prisma — there are no `lib/data/{calendario,noticias}.ts`.
+- Some components are client components (`"use client"`): `Header`, `ThemeToggle`, admin forms, `BotonEliminar`, `CampoImagen`, `BotonEnviar`, `Sidebar`, `LoginForm`.
 - `elclub.md` is the source copy for the El Club page — keep it in sync when editing that page.
-- `lib/utils/date.ts` owns all date formatting (Spanish, `es-AR` locale). Use it; don't hand-roll dates in components.
+- `lib/utils/date.ts` owns all date formatting (Spanish, `es-AR` locale) and `aValorInputDatetimeLocal` for form inputs. Use it; don't hand-roll dates in components.
+- Shared form helpers: `lib/utils/form.ts` (`vacioANull`) and `src/application/dtos/form.helpers.ts` (checkbox/date Zod helpers).
 
 ## Design system ("Pitch Imperial") — match it, don't invent
-- Dark theme only (`color-scheme: dark` in `app/globals.css`).
+- Dark-first with an optional light theme: default `color-scheme: dark` in `app/globals.css`; light overrides live under `html[data-theme="light"]`. Toggling is handled by the inline `themeScript` in `app/layout.tsx` + `components/ui/ThemeToggle.tsx` (shared `localStorage("grana-theme")` key — keep them in sync).
 - Tokens defined in `@theme inline` in `app/globals.css`: `primary` navy `#0a1d37`, `secondary` gold `#c5a059`, `tertiary` red `#d31124`, `surface`/`on-surface`. **Add any new color/font tokens there** — there is no Tailwind config file.
 - Fonts loaded once in `app/layout.tsx` via `next/font/google`: Anton (`font-headline`), Hanken Grotesk (`font-body`/`font-sans`), Space Grotesk (`font-label`).
 - Signature style: square corners (no `rounded-*`), 45° diagonal clip-path cuts on primary CTAs (see `Button.tsx` `CLIP_PRIMARIO`), uppercase `font-headline` headings with `tracking-[0.1em]` labels.

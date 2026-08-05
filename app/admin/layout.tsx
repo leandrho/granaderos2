@@ -20,6 +20,8 @@ export default async function AdminLayout({
   const sesion = token ? await verificarToken(token) : null;
 
   if (!sesion) {
+    // El proxy (proxy.ts) ya redirige /admin/* no autenticado a /admin.
+    // Sin sesión solo llegamos acá desde /admin (login): render sin Sidebar.
     return <main className="min-h-full bg-surface">{children}</main>;
   }
 

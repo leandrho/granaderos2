@@ -7,6 +7,7 @@ import {
   type EstadoNoticia,
 } from "@/app/actions/admin/noticias.admin.actions";
 import { slugificar } from "@/lib/utils/slug";
+import { aValorInputDatetimeLocal } from "@/lib/utils/date";
 import { Campo, INPUT_CLASES, TEXTAREA_CLASES } from "./Campo";
 import { CampoImagen } from "./CampoImagen";
 import { BotonEnviar } from "./BotonEnviar";
@@ -26,13 +27,6 @@ interface NoticiaFormProps {
 }
 
 const estadoInicial: EstadoNoticia = {};
-
-function aValorInput(fecha: Date): string {
-  const desplazamiento = fecha.getTimezoneOffset() * 60000;
-  return new Date(fecha.getTime() - desplazamiento)
-    .toISOString()
-    .slice(0, 16);
-}
 
 export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
   const accion = id ? actualizarNoticia.bind(null, id) : crearNoticia;
@@ -98,7 +92,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
             name="fecha"
             type="datetime-local"
             required
-            defaultValue={valoresIniciales ? aValorInput(valoresIniciales.fecha) : undefined}
+            defaultValue={valoresIniciales ? aValorInputDatetimeLocal(valoresIniciales.fecha) : undefined}
             className={INPUT_CLASES}
           />
         </Campo>
@@ -143,7 +137,7 @@ export function NoticiaForm({ id, valoresIniciales }: NoticiaFormProps) {
           minLength={10}
           defaultValue={valoresIniciales?.descripcionDetalle}
           placeholder="Texto completo de la noticia (mín. 10 caracteres)"
-          className="min-h-40 w-full resize-y border border-line/15 bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-on-surface/40 outline-none transition-colors focus:border-secondary"
+          className={`${TEXTAREA_CLASES} min-h-40`}
         />
       </Campo>
 
