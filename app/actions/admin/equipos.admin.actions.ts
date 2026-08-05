@@ -8,6 +8,7 @@ import {
   FORMATOS_EQUIPO,
   procesarArchivoImagen,
 } from "@/lib/utils/imagen";
+import { requiereSesion } from "@/lib/auth/session";
 
 const repositorio = () => new PrismaEquipoRepository();
 
@@ -82,6 +83,11 @@ export async function crearEquipo(
   estado: EstadoEquipo,
   formData: FormData
 ): Promise<EstadoEquipo> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.ok) {
@@ -107,6 +113,11 @@ export async function actualizarEquipo(
   estado: EstadoEquipo,
   formData: FormData
 ): Promise<EstadoEquipo> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.ok) {
@@ -128,6 +139,7 @@ export async function actualizarEquipo(
 }
 
 export async function eliminarEquipo(id: number): Promise<void> {
+  if (!(await requiereSesion())) return;
   await repositorio().eliminar(id);
   revalidatePath("/calendario");
   revalidatePath("/admin/equipos");

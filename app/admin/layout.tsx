@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Sidebar } from "@/components/admin/Sidebar";
+import { verificarToken } from "@/lib/auth/jwt";
+import { leerCookieSesion } from "@/lib/auth/session";
 
 export const metadata: Metadata = {
   title: {
@@ -9,11 +11,18 @@ export const metadata: Metadata = {
   description: "Panel de administración del Club Deportivo Granaderos de Koslay.",
 };
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const token = await leerCookieSesion();
+  const sesion = token ? await verificarToken(token) : null;
+
+  if (!sesion) {
+    return <main className="min-h-full bg-surface">{children}</main>;
+  }
+
   return (
     <div className="flex min-h-full flex-col lg:flex-row">
       <Sidebar />

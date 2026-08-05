@@ -9,6 +9,7 @@ import {
   FORMATOS_NOTICIA,
   procesarArchivoImagen,
 } from "@/lib/utils/imagen";
+import { requiereSesion } from "@/lib/auth/session";
 
 const repositorio = () => new PrismaNoticiaRepository();
 
@@ -87,6 +88,11 @@ export async function crearNoticia(
   estado: EstadoNoticia,
   formData: FormData
 ): Promise<EstadoNoticia> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.ok) {
@@ -118,6 +124,11 @@ export async function actualizarNoticia(
   estado: EstadoNoticia,
   formData: FormData
 ): Promise<EstadoNoticia> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.ok) {
@@ -146,6 +157,7 @@ export async function actualizarNoticia(
 }
 
 export async function eliminarNoticia(id: number): Promise<void> {
+  if (!(await requiereSesion())) return;
   await repositorio().eliminar(id);
   revalidatePath("/noticias");
   revalidatePath("/admin/noticias");

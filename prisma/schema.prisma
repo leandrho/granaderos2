@@ -43,6 +43,35 @@ model Noticia {
   @@map("noticias")
 }
 
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  usuario   String   @unique
+  hash      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("usuarios")
+}
+
+model IntentoLogin {
+  id        Int      @id @default(autoincrement())
+  ip        String
+  usuario   String
+  createdAt DateTime @default(now())
+
+  @@index([ip])
+  @@map("intentos_login")
+}
+
+model BloqueoLogin {
+  ip            String    @id
+  conteoFallas  Int       @default(0)
+  bloqueadoHasta DateTime?
+  actualizadoEn DateTime  @updatedAt
+
+  @@map("bloqueo_login")
+}
+
 model EventoCalendario {
   id                 Int      @id @default(autoincrement())
   equipo1Id          Int

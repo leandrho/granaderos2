@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { hash } from "bcryptjs";
 import { PrismaClient } from "../generated/prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 
@@ -151,7 +152,18 @@ const EVENTOS = [
   },
 ];
 
+const ADMIN = {
+  usuario: "admin",
+  password: "YusGrana2992++!!xE",
+};
+
 async function main() {
+  await prisma.usuario.upsert({
+    where: { usuario: ADMIN.usuario },
+    update: { hash: await hash(ADMIN.password, 10) },
+    create: { usuario: ADMIN.usuario, hash: await hash(ADMIN.password, 10) },
+  });
+
   for (const equipo of EQUIPOS) {
     await prisma.equipo.upsert({
       where: { id: equipo.id },

@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "reset-password": "tsx scripts/reset-admin-password.ts"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.9.1",
     "@prisma/client": "^7.9.1",
+    "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.6.0",
+    "jose": "^6.2.8",
     "next": "16.2.12",
     "react": "19.2.8",
     "react-dom": "19.2.8",

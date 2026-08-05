@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { PrismaEventoCalendarioRepository } from "@/infrastructure/repositories/PrismaEventoCalendarioRepository";
 import { AdminEventoSchema } from "@/application/dtos/admin.calendario.dto";
+import { requiereSesion } from "@/lib/auth/session";
 
 const repositorio = () => new PrismaEventoCalendarioRepository();
 
@@ -45,6 +46,11 @@ export async function crearEvento(
   estado: EstadoEvento,
   formData: FormData
 ): Promise<EstadoEvento> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.success) {
@@ -67,6 +73,11 @@ export async function actualizarEvento(
   estado: EstadoEvento,
   formData: FormData
 ): Promise<EstadoEvento> {
+  const sesion = await requiereSesion();
+  if (!sesion) {
+    return { error: "Sesión inválida o expirada." };
+  }
+
   const resultado = await resolverInput(formData);
 
   if (!resultado.success) {
@@ -85,6 +96,7 @@ export async function actualizarEvento(
 }
 
 export async function eliminarEvento(id: number): Promise<void> {
+  if (!(await requiereSesion())) return;
   await repositorio().eliminar(id);
   revalidatePath("/calendario");
   revalidatePath("/admin/calendario");
