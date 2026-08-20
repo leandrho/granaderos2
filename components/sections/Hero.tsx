@@ -16,11 +16,11 @@ export function Hero() {
         sizes="100vw"
       />
       <div
-        className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-transparent"
+        className="absolute inset-0 bg-linear-to-r from-primary/80 via-primary/60 to-transparent"
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 pt-28 pb-16 md:px-12">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-28 pb-16 md:px-12">
         <p className="font-label text-sm uppercase tracking-[0.1em] text-gold-glimmer">
           Club Deportivo
         </p>
