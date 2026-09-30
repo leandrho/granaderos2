@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Hanken_Grotesk, Space_Grotesk } from "next/font/google";
+import { TransicionPagina } from "@/components/layout/TransicionPagina";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 
@@ -50,7 +51,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: themeScript }}
         />
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <TransicionPagina>{children}</TransicionPagina>
+      </body>
     </html>
   );
 }
