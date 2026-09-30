@@ -20,7 +20,6 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: "3mb",
     },
-    viewTransition: true,
   },
   images: {
     dangerouslyAllowSVG: true,
