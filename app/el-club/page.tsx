@@ -20,7 +20,7 @@ export default function ElClubPage() {
     <>
       <Header />
       <main className="flex-1">
-        <PageHeader title="El Club" />
+        <PageHeader title="Granaderos de Koslay" />
 
         <section className="border-t border-line/10 bg-surface pb-24 pt-10">
           <div className="mx-auto max-w-[1280px] px-6 md:px-12">

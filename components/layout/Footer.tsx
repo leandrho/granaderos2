@@ -7,7 +7,7 @@ import { SITE } from "@/lib/site";
 export function Footer() {
   return (
     <footer className="bg-stadium-black">
-      <div className="mx-auto grid max-w-[1280px] gap-12 px-6 py-16 md:grid-cols-3 md:px-12">
+      <div className="mx-auto grid max-w-[1280px] gap-12 px-6 py-16 md:grid-cols-2 md:px-12">
         <div>
           <p className="font-headline text-xl uppercase leading-none tracking-wide text-on-navy">
             {SITE.nombre}
@@ -18,7 +18,7 @@ export function Footer() {
           </p>
         </div>
 
-        <nav aria-label="Navegación del pie" className="flex flex-col gap-3">
+        {/* <nav aria-label="Navegación del pie" className="flex flex-col gap-3">
           <p className="font-label text-sm uppercase tracking-[0.1em] text-gold-glimmer">
             Navegación
           </p>
@@ -31,7 +31,7 @@ export function Footer() {
               {link.label}
             </Link>
           ))}
-        </nav>
+        </nav> */}
 
         <div className="flex flex-col gap-3">
           <p className="font-label text-sm uppercase tracking-[0.1em] text-gold-glimmer">
